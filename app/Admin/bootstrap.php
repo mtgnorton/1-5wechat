@@ -19,3 +19,7 @@
  */
 
 Encore\Admin\Form::forget(['map', 'editor']);
+
+config(['admin.logo'=>'<b>'.getConfig('site_name').'</b>']);
+
+config(['admin.logo-mini'=>'<b>'.mb_substr(getConfig('site_name'),0,1).'</b>']);
