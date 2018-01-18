@@ -1,6 +1,12 @@
 <template>
+    <transition
+            name="custom-classes-transition"
+            enter-active-class="animated fadeInRight"
+            leave-active-class="animated fadeOutRight"
 
-    <div class="right-wrapper"  :style="{height:cHeight+'px'}">
+    >
+
+    <div class="right-wrapper"  :style="{height:cHeight+'px'}" v-if="showAnimation">
         <div class="right">
             <div class="right-header">
                <h2> Hello World</h2>
@@ -41,18 +47,27 @@
             </div>
         </div>
     </div>
-
+    </transition>
 </template>
 
 <script>
     import Bus from '../bus.js'
   export default {
-    props:['cHeight'],
+    props:['cHeight','isShow'],
+
     data(){
       return {
 
-        currentBackground: sessionStorage.getItem('background') || 'rgba(226, 187, 43,0.2)'
-
+        currentBackground: sessionStorage.getItem('background') || 'rgba(226, 187, 43,0.2)',
+        showAnimation:true
+      }
+    },
+    watch:{
+      isShow(){
+        this.showAnimation = false;
+        this.$nextTick(function () {
+          this.showAnimation= true;
+        })
       }
     },
     computed:{

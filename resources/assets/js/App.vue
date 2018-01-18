@@ -10,13 +10,13 @@
 
             <el-col :md="6">
 
-                <center :c-height="cHeight" ></center>
+                <center :c-height="cHeight" :is-show="isShow"></center>
 
             </el-col>
 
             <el-col :md="rightSpan" >
 
-            <right :c-height="cHeight" ></right>
+            <right :c-height="cHeight" :is-show="isShow"></right>
 
             </el-col>
 
@@ -38,6 +38,7 @@
       cHeight : 0, //总容器的高度
       leftWidth: 0, //左侧栏的宽度
       rightSpan: 14,
+        isShow:  Bus.centerStatus,
       }
     },
     components:{
@@ -50,12 +51,21 @@
       Bus.isPc = this.isPc();
       
       window.onresize = this.setSize;
-      Bus.$on('switchCenter',()=>{
-        if(Bus.centerStatus){
-          this.rightSpan = 14;
-        }else{
+
+      Bus.$on('switchCenter',($flag)=>{
+        if ( Bus.centerFlag  == $flag)
+        {
+          this.isShow = Bus.centerStatus= false;
+          Bus.centerFlag = '';
           this.rightSpan = 20;
+        }else{
+          this.isShow = Bus.centerStatus= true;
+          Bus.centerFlag = $flag;
+          this.rightSpan = 14;
+
         }
+        this.centerFlag = $flag;
+
       })
     },
     methods:{

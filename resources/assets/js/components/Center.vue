@@ -2,8 +2,8 @@
     <transition
             name="custom-classes-transition"
             enter-active-class="animated bounceIn"
-            leave-active-class="animated fadeOut"
-            :duration="{ leave: 400 }"
+            leave-active-class="animated bounceOut"
+            :duration="{ leave: 200 }"
     >
     <div class="center-wrapper" :style="{height:cHeight+'px'}" v-if="isShow">
 <ul class="center">
@@ -32,12 +32,12 @@
   import postDirectory from './postDirectory.vue'
   import tag from './tag.vue'
   export default {
-    props:['cHeight'],
+    props:['cHeight','isShow'],
     data(){
       return {
         Posts:[1,2,3,4,5,1,1,1,1,1,1,1,1],
         loading:false,
-        isShow:  Bus.centerStatus,
+
         centerFlag: Bus.centerFlag,
 
       }
@@ -53,15 +53,7 @@
     },
     mounted() {
         Bus.$on('switchCenter',($flag)=>{
-           if ( Bus.centerFlag  == $flag)
-           {
-             this.isShow = Bus.centerStatus= false;
-             Bus.centerFlag = '';
-           }else{
-             this.isShow = Bus.centerStatus= true;
-             Bus.centerFlag = $flag;
 
-           }
           this.centerFlag = $flag;
 
         })
