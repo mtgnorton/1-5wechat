@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "9718217cce70be1e54c1b250d54054ac",
+    "content-hash": "e8b4bcd514f11f86a18223e055587ea0",
     "packages": [
         {
             "name": "barryvdh/laravel-ide-helper",
@@ -1223,6 +1223,46 @@
                 "schedule"
             ],
             "time": "2017-01-23T04:29:33+00:00"
+        },
+        {
+            "name": "mtg/show-image",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mtgnorton/dialogImage.git",
+                "reference": "fa1cad5b9f2e33b7fbb9a04f62be90355f4ce901"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://files.phpcomposer.com/files/mtgnorton/dialogImage/fa1cad5b9f2e33b7fbb9a04f62be90355f4ce901.zip",
+                "reference": "fa1cad5b9f2e33b7fbb9a04f62be90355f4ce901",
+                "shasum": ""
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Mtg\\ShowImage\\ShowImageProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Mtg\\ShowImage\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "马廷广",
+                    "email": "15726204663@163.com"
+                }
+            ],
+            "description": "show a dialog  to show photos",
+            "time": "2018-01-16 02:10:21"
         },
         {
             "name": "nesbot/carbon",
@@ -4936,7 +4976,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "mtg/show-image": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

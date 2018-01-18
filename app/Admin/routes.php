@@ -14,4 +14,7 @@ Route::group([
     $router->get('/config','ConfigController@edit');
     $router->put('/config','ConfigController@update');
     $router->resource('wechat/menu', 'MenuController', ['except' => ['create']]);
+    $router->resource('tags', 'TagController');
+    $router->resource('posts', 'PostController');
+
 });

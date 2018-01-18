@@ -1,5 +1,5 @@
 let mix = require('laravel-mix');
-
+mix.setPublicPath('public');
 /*
  |--------------------------------------------------------------------------
  | Mix Asset Management
@@ -11,5 +11,21 @@ let mix = require('laravel-mix');
  |
  */
 
+
 mix.js('resources/assets/js/app.js', 'public/js')
-   .sass('resources/assets/sass/app.scss', 'public/css');
+mix.sass('resources/assets/sass/font-awesome/scss/font-awesome.scss','public/css/app.css')
+mix.styles(['public/css/app.css','public/css/normalize.css','public/css/animate.css'],'public/css/app.css').version();
+
+mix.browserSync({
+  proxy: 'admin.cn',
+  files: ['resources'],
+  watchOptions: {
+    ignoreInitial: true,
+    ignored: '*.php'
+  },
+})
+
+// run versioning on production only
+if (mix.inProduction()) {
+  mix.version();
+}
