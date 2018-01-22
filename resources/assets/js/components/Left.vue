@@ -11,8 +11,8 @@
         <p class="description">人生自古谁无死,人生自古谁无死,留取丹心照汗青</p>
         <div class="category">
             <ul>
-                <li @click="openCenter('category')">分类</li>
-                <li @click="openCenter('tag')">标签</li>
+                <li @click="openCenter('categories')">分类</li>
+                <li @click="openCenter('tags')">标签</li>
                 <li>个人简介</li>
                 <li class="choose-background">
                         <el-dropdown @command="chooseBackground">
@@ -65,6 +65,7 @@
           this.isShow =false;
         }
         Bus.$emit('switchCenter',$flag);
+        this.$router.push('/'+$flag);
       },
       chooseBackground(value){
         this.currentBackground = value;

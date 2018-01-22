@@ -2,15 +2,16 @@
 
 namespace App\Admin\Controllers;
 
-use App\Models\Tag;
+use App\Http\Controllers\Controller;
+use App\Models\Category;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Facades\Admin;
 use Encore\Admin\Layout\Content;
-use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\ModelForm;
+use Encore\Admin\Tree;
 
-class TagController extends Controller
+class CategoryController extends Controller
 {
     use ModelForm;
 
@@ -22,9 +23,9 @@ class TagController extends Controller
     public function index()
     {
         return Admin::content(function (Content $content) {
-            $content->header('Tags');
-            $content->description('All tags');
-            $content->body($this->grid());
+            $content->header('All categories');
+
+            $content->body($this->tree());
         });
     }
 
@@ -37,9 +38,7 @@ class TagController extends Controller
     public function edit($id)
     {
         return Admin::content(function (Content $content) use ($id) {
-
-            $content->header('Tags');
-            $content->description('Edit tags');
+            $content->header('Edit category');
             $content->body($this->form()->edit($id));
         });
     }
@@ -52,8 +51,7 @@ class TagController extends Controller
     public function create()
     {
         return Admin::content(function (Content $content) {
-            $content->header('Tags');
-            $content->description('Create tags');
+            $content->header('Create new category');
             $content->body($this->form());
         });
     }
@@ -63,30 +61,20 @@ class TagController extends Controller
      *
      * @return Grid
      */
-    protected function grid()
+    protected function tree()
     {
-        return Admin::grid(Tag::class, function (Grid $grid) {
+        return Category::tree(function (Tree $tree) {
 
-            $grid->id('ID')->sortable();
+            $tree->branch(function ($branch) {
 
-            $grid->name()->editable();
+                $src = config('admin.upload.host') . '/' . $branch['logo'] ;
 
+                $logo = "<img src='$src' style='max-width:30px;max-height:30px' class='img'/>";
 
-            $states = [
-                'on' => ['text' => 'YES'],
-                'off' => ['text' => 'NO'],
-            ];
+                return "{$branch['id']} - {$branch['title']} $logo";
 
-            $grid->column('switch_group')->switchGroup([
-                'recommend' => '推荐', 'hot' => '热门', 'new' => '最新'
-            ], $states);
-
-            $grid->created_at();
-            $grid->updated_at();
-
-            $grid->filter(function ($filter) {
-                $filter->between('updated_at')->datetime();
             });
+
         });
     }
 
@@ -97,16 +85,15 @@ class TagController extends Controller
      */
     protected function form()
     {
-        return Admin::form(Tag::class, function (Form $form) {
+        return Category::form(function (Form $form) {
 
             $form->display('id', 'ID');
 
-            $form->text('name')->rules('required');
+            $form->select('parent_id')->options(Category::selectOptions());
 
-
-            $form->switch('recommend');
-            $form->switch('hot');
-            $form->switch('new');
+            $form->text('title')->rules('required');
+            $form->textarea('desc')->rules('required');
+            $form->image('logo');
 
             $form->display('created_at', 'Created At');
             $form->display('updated_at', 'Updated At');

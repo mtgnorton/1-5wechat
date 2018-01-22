@@ -21,6 +21,9 @@ class Post extends Model
         return $this->belongsTo(User::class, 'author_id');
     }
 
+    public function category(){
+        return $this->belongsTo(Category::class,'category_id');
+    }
     public function tags()
     {
         return $this->morphToMany(Tag::class, 'taggable', 'taggables');

@@ -1,8 +1,8 @@
 <template>
     <transition
             name="custom-classes-transition"
-            enter-active-class="animated bounceIn"
-            leave-active-class="animated bounceOut"
+            enter-active-class="animated slideInDown"
+            leave-active-class="animated slideOutDown"
             :duration="{ leave: 200 }"
     >
     <div class="center-wrapper" :style="{height:cHeight+'px'}" v-if="isShow">
@@ -13,9 +13,9 @@
             leave-active-class="animated slideOutDown"
             mode="out-in"
     >
-     <component :is="view"></component>
-    <!--<post-directory v-if="centerFlag == 'category'"></post-directory>-->
-     <!--<tag v-if="centerFlag == 'tag'"></tag>-->
+
+     <!--<component :is="view"></component>-->
+        <router-view></router-view>
 
     </transition>
 
@@ -29,7 +29,7 @@
 
 <script>
   import Bus from '../bus.js';
-  import postDirectory from './postDirectory.vue'
+  import category from './category.vue'
   import tag from './tag.vue'
   export default {
     props:['cHeight','isShow'],
@@ -37,26 +37,17 @@
       return {
         Posts:[1,2,3,4,5,1,1,1,1,1,1,1,1],
         loading:false,
-
-        centerFlag: Bus.centerFlag,
-
       }
     },
     components:{
-      postDirectory,
-      tag
+
     },
     computed:{
-      view () {
-        return this.centerFlag == "category" ?　'post-directory' : 'tag';
-      }
+
     },
     mounted() {
-        Bus.$on('switchCenter',($flag)=>{
+//      this.$router.push('categories');
 
-          this.centerFlag = $flag;
-
-        })
     },
     methods: {
       fetchData() {

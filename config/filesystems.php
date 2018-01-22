@@ -47,6 +47,17 @@ return [
             'driver' => 'local',
             'root' => storage_path('app'),
         ],
+//        'editor' =>[
+//            'driver'=>'local',
+//            'root'=>storage_path('app/public/editorImage'),
+//            'url'=>env('APP_URL').'/public/storage/editorImage'
+//        ],
+
+        'editor' =>[
+            'driver'=>'local',
+            'root'=>    public_path('storage/editorImage'),
+            'url'=>env('APP_URL').'/storage/editorImage'
+        ],
         'admin' => [
             'driver' => 'local',
             'root' => public_path('uploads'),

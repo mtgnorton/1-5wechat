@@ -7,6 +7,7 @@ use App\Admin\Extensions\Tools\ReleasePost;
 use App\Admin\Extensions\Tools\RestorePost;
 use App\Admin\Extensions\Tools\ShowSelected;
 use App\Admin\Extensions\Tools\Trashed;
+use App\Models\Category;
 use App\Models\Post;
 use App\Models\Tag;
 use App\Models\User;
@@ -205,7 +206,13 @@ class PostController extends Controller
 
             $form->text('title','标题')->default('hello');
             $form->boxImage('cover','线上图片');
+            $form->select('category_id','分类')->options(function ($id) {
+                $category = Category::find($id);
 
+                if ($category) {
+                    return [$category->id => $category->title];
+                }
+            })->options('/admin/api/categories');;
             $form->select('author_id','作者id')->options(function ($id) {
                 $user = User::find($id);
 

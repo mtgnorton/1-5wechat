@@ -14,7 +14,7 @@ mix.setPublicPath('public');
 
 mix.js('resources/assets/js/app.js', 'public/js')
 mix.sass('resources/assets/sass/font-awesome/scss/font-awesome.scss','public/css/app.css')
-mix.styles(['public/css/app.css','public/css/normalize.css','public/css/animate.css'],'public/css/app.css').version();
+mix.styles(['public/css/app.css','public/css/normalize.css','public/css/animate.css','public/css/wangEditor.min.css'],'public/css/app.css').version();
 
 mix.browserSync({
   proxy: 'admin.cn',

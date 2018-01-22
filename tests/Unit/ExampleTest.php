@@ -14,6 +14,17 @@ class ExampleTest extends TestCase
      */
     public function testBasicTest()
     {
-        $this->assertTrue(true);
+//        $response = $this->json('get','/api/post/4');
+//
+//        $response->assertStatus(200)
+//            ->assertJson([
+//                'status'=>true
+//            ]);
+
+        $this->assertDatabaseHas('posts',[
+            'title'=>'11'
+        ]);
+
+
     }
 }

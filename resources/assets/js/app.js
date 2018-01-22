@@ -9,8 +9,13 @@
 import Vue from 'vue';
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
+import router from './router.js';
+import VueRouter from 'vue-router'
 
+Vue.use(VueRouter);
+require('./bootstrap');
 Vue.use(ElementUI);
+
 
 const bus = new Vue();
 /**
@@ -22,5 +27,6 @@ const bus = new Vue();
 Vue.component('example-component', require('./App.vue'));
 
 const app = new Vue({
+    router:router,
     el: '#app'
 });

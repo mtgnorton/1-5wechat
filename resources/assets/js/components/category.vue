@@ -1,9 +1,9 @@
 <template>
     <div>
-        <li class="post-wrapper" v-for="item in Posts">
+        <li class="post-wrapper" v-for="item in categories"  @click="chooseCategory(item.id)">
             <i class="fa fa-sticky-note-o" aria-hidden="true"></i>
             <h3 class="name">
-                <span> 分类{item}</span>
+                <span> {{item.title}}</span>
             </h3>
 
         </li>
@@ -11,20 +11,32 @@
 </template>
 
 <script>
+    import {getCategories,categoryPost} from '../api.js';
   export default {
     data(){
       return {
-        Posts:[1,2,3,4,5,1,1,1,1,1,1,1,1],
+        categories:[],
       }
     },
     mounted() {
+        getCategories().then((res)=>{
+            this.categories = res.data;
+        }).catch((error)=>{
+          console.log(error);
+        })
+    },
+    methods:{
+      chooseCategory(id){
 
+        this.$router.push({name:'post-directory',params:{id:id}});
+
+      }
     }
   }
 
 </script>
 
-<style>
+<style scoped>
     .post-wrapper {
         padding:10px 20px;
         border-bottom: 1px solid #dcdcdc;
@@ -32,6 +44,7 @@
         background: hsla(0,0%,100%,.2);
         color: #ffffff;
         text-shadow: 1px 1px rgb(77, 77, 77);
+        cursor: pointer;
     }
     .post-wrapper > .name{
         display:inline-block;

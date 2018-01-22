@@ -14,3 +14,11 @@ function getConfig($name=null){
     }
 
 }
+
+function rsSuccess($data){
+    return response( [
+        'status'=>true,
+        'data'=>$data
+    ],200);
+}
+

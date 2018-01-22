@@ -1,7 +1,7 @@
 <template>
     <div class="container" style="width: 100%;padding: 0px" :style="{height:cHeight+'px'}">
         <el-row>
-            <el-col ref="left" :md="4">
+            <el-col ref="left" :md="4" v-if="leftShow">
 
                 <left  :top-width="leftWidth" :c-height="cHeight" ></left>
 
@@ -10,13 +10,13 @@
 
             <el-col :md="6">
 
-                <center :c-height="cHeight" :is-show="isShow"></center>
+                <center :c-height="cHeight" :is-show="centerShow"></center>
 
             </el-col>
 
             <el-col :md="rightSpan" >
 
-            <right :c-height="cHeight" :is-show="isShow"></right>
+            <right :c-height="cHeight" :is-show="centerShow"></right>
 
             </el-col>
 
@@ -38,7 +38,9 @@
       cHeight : 0, //总容器的高度
       leftWidth: 0, //左侧栏的宽度
       rightSpan: 14,
-        isShow:  Bus.centerStatus,
+      centerShow:  Bus.centerStatus,
+      leftShow: true,
+
       }
     },
     components:{
@@ -47,26 +49,15 @@
       'right': Right
     },
     mounted() {
+
+//      this.setToken()
       this.setSize();
       Bus.isPc = this.isPc();
-      
       window.onresize = this.setSize;
+      this.setEvent();
+      this.$router.push('categories')
 
-      Bus.$on('switchCenter',($flag)=>{
-        if ( Bus.centerFlag  == $flag)
-        {
-          this.isShow = Bus.centerStatus= false;
-          Bus.centerFlag = '';
-          this.rightSpan = 20;
-        }else{
-          this.isShow = Bus.centerStatus= true;
-          Bus.centerFlag = $flag;
-          this.rightSpan = 14;
 
-        }
-        this.centerFlag = $flag;
-
-      })
     },
     methods:{
       setSize() {
@@ -89,6 +80,44 @@
         }
 
         return flag;
+      },
+      setToken(){
+        let token = document.getElementsByTagName('meta')['csrf-token'].content;
+        sessionStorage.setItem('token',token);
+        
+      },
+      setEvent(){
+        Bus.$on('switchCenter',(flag)=>{
+
+          if ( Bus.centerFlag  == flag)
+        {
+          this.centerShow = Bus.centerStatus= false;
+          Bus.centerFlag = '';
+          this.rightSpan = 20;
+        }else{
+          this.centerShow = Bus.centerStatus= true;
+          Bus.centerFlag = flag;
+          this.rightSpan = 14;
+
+        }
+        this.centerFlag = flag;
+
+      })
+
+        Bus.$on('read',(value)=>{
+          console.log('');
+
+        if(value){ //如果是阅读模式
+          this.leftShow = false;
+          this.centerShow = false;
+          this.rightSpan = 24;
+
+        }else{
+          this.leftShow = true;
+          this.centerShow = true;
+          this.rightSpan = 14;
+        }
+      })
       }
   }
   }
