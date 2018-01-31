@@ -1,20 +1,22 @@
 <template>
     <div class="tag-container">
-        <li class="tag-wrapper" v-for="item in Posts">
-            <el-tag :type="item|randomColor">标签一</el-tag>
+        <li class="tag-wrapper" v-for="item in tags" @click="changePostDirectory(item.id)">
+            <el-tag :type="item|randomColor">{{item.name}}</el-tag>
         </li>
     </div>
 </template>
 
 <script>
+    import {getTags} from '../api'
+    import Bus from '../bus'
   export default {
     data(){
       return {
-        Posts:[1,2,3,4,5,1,1,1,1,1,1,1,1],
+        tags:[],
       }
     },
     mounted() {
-
+    this.getTags();
     },
     filters:{
       randomColor(value)
@@ -22,6 +24,17 @@
         let tags = ['success','info','warning','danger','' ];
         let random = Math.floor(Math.random() * tags.length + 1)-1;
         return tags[random];
+      },
+
+    },
+    methods:{
+      getTags(){
+        getTags().then((res)=>{
+        this.tags = res.data.data;
+        })
+      },
+      changePostDirectory(id){
+      this.$router.push({name:'post-directory-tag',params:{id:id}});
       }
     }
   }
@@ -37,7 +50,7 @@
         padding:10px 20px;
         /*border-bottom: 1px solid #dcdcdc;*/
         list-style: none;
-
+        cursor:pointer;
         color: #ffffff;
         /*text-shadow: 1px 1px rgb(77, 77, 77);*/
     }

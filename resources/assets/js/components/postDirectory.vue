@@ -2,8 +2,8 @@
     <div>
     <li class="post-wrapper" v-for="item in posts">
 
-        <h3 class="name">
-            <i class="fa fa-book" aria-hidden="true" style="margin-right:15px" :style="{'color':currentBackground}"></i>
+        <h3 class="name" @click="changePost(item.id)">
+
             <span> {{item.title}}</span>
         </h3>
         <div class="detail">
@@ -22,7 +22,7 @@
 
 <script>
     import Bus from '../bus.js'
-    import {categoryPost} from '../api.js'
+    import {categoryPost,tagPost} from '../api.js'
   export default {
     data(){
       return {
@@ -31,11 +31,10 @@
       }
     },
     mounted() {
-      Bus.$on('switchBackground',(color)=>{
-
-        this.currentBackground = this.cancelOpacity(color);
-      });
+        this.eventListners();
         this.getData();
+
+        
     },
     methods:{
       cancelOpacity (value){
@@ -47,17 +46,31 @@
          return  temp.join(',');
 
       },
+      changePost(id){
+        Bus.$emit('change-post-id',id);
+      },
       getData() {
+        let cP = categoryPost;
+        let tP = tagPost;
+        let functionName = "tP";
+        if(_.includes(this.$route.path,'category'))
+          functionName = 'cP';
 
-        categoryPost(this.$route.params.id).then((res)=>{
+        eval(functionName)(this.$route.params.id).then((res)=>{
           this.posts = res.data.data;
 
           console.log(this.posts);
           
-      }).catch((error)=>{
+         }).catch((error)=>{
           console.log(error);
 
       })
+      },
+      eventListners(){
+        Bus.$on('switchBackground',(color)=>{
+
+          this.currentBackground = this.cancelOpacity(color);
+        });
       }
     }
   }
@@ -74,7 +87,6 @@
         overflow:hidden;
     }
     .post-wrapper > .name{
-        display:inline-block;
         max-width: 350px;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -82,11 +94,19 @@
         font-size:18px;
         font-weight: normal;
         white-space:nowrap;
+        cursor: pointer;
         /*font-family: "Arial","Microsoft YaHei","黑体","宋体",sans-serif;*/
+    }
+    .post-wrapper > .name>span{
+        display: inline-block;
+        max-width: 300px;
     }
     i{
         color: orange;
 
+    }
+    .post-wrapper > .detail{
+        white-space: nowrap;
     }
     .post-wrapper > .detail > .date-wrapper,.tag-wrapper{
         display: inline-block;
@@ -96,7 +116,7 @@
     margin-right:5px;
     }
     .post-wrapper > .detail > .date-wrapper{
-        margin-right: 60px;
+        margin-right: 20px;
     }
 </style>
 

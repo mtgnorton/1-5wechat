@@ -16,10 +16,11 @@
 
             <el-col :md="rightSpan" >
 
-            <right :c-height="cHeight" :is-show="centerShow"></right>
-
+            <right :c-height="cHeight" :right-width="rightWidth" :is-show="centerShow"></right>
+            
             </el-col>
 
+        <torrent></torrent>
         </el-row>
     </div>
 
@@ -30,6 +31,7 @@
   import Left from './components/Left.vue';
   import Center from './components/center.vue';
   import Right from './components/right.vue';
+  import Torrent from './components/torrent.vue';
   import Bus from './bus.js';
 
   export default {
@@ -37,6 +39,7 @@
       return {
       cHeight : 0, //总容器的高度
       leftWidth: 0, //左侧栏的宽度
+      rightWidth: 0,//右侧栏的宽度
       rightSpan: 14,
       centerShow:  Bus.centerStatus,
       leftShow: true,
@@ -46,7 +49,8 @@
     components:{
       'left': Left,
       'center': Center,
-      'right': Right
+      'right': Right,
+      'torrent':Torrent
     },
     mounted() {
 
@@ -55,8 +59,6 @@
       Bus.isPc = this.isPc();
       window.onresize = this.setSize;
       this.setEvent();
-      this.$router.push('categories')
-
 
     },
     methods:{
@@ -66,8 +68,10 @@
         else if ((document.body) && (document.body.clientHeight))
            this.cHeight = document.body.clientHeight;
            this.leftWidth = document.getElementsByClassName('left-container')[0].clientWidth;
-
+           this.rightWidth = document.getElementsByClassName('right-wrapper')[0].clientWidth;
+          
       },
+
        isPc(){
         let userAgentInfo = navigator.userAgent;
         let Agents = ["Android", "iPhone", "SymbianOS", "Windows Phone", "iPad", "iPod"];
@@ -105,8 +109,7 @@
       })
 
         Bus.$on('read',(value)=>{
-          console.log('');
-
+    
         if(value){ //如果是阅读模式
           this.leftShow = false;
           this.centerShow = false;
@@ -117,6 +120,10 @@
           this.centerShow = true;
           this.rightSpan = 14;
         }
+        this.$nextTick(function(){
+        this.rightWidth = document.getElementsByClassName('right-wrapper')[0].clientWidth;
+        })
+      
       })
       }
   }

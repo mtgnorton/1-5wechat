@@ -11,6 +11,9 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import router from './router.js';
 import VueRouter from 'vue-router'
+import 'nprogress/nprogress.css'
+// import NProgress from 'nprogress'//页面顶部进度条
+
 
 Vue.use(VueRouter);
 require('./bootstrap');

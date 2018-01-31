@@ -22,9 +22,12 @@
 
 
             </div>
-            <div class="content  w-e-text-container" :style="{'background-color':currentBackground}">
+
+            <div id="progress" class="content  w-e-text-container" :style="{'background-color':currentBackground,'min-height':cHeight-100+'px'}" v-if="id">
+
                 <div class="read w-e-text" :style="readCompute"  v-html="post.content"></div>
             </div>
+            <right-footer :right-width="rightWidth"></right-footer>
         </div>
     </div>
     </transition>
@@ -33,9 +36,10 @@
 <script>
     import Bus from '../bus.js'
     import {getPost} from '../api.js'
-
+    import NProgress from 'nprogress'//页面顶部进度条
+    import RightFooter from './footer.vue'
     export default {
-    props:['cHeight','isShow'],
+    props:['cHeight','isShow','rightWidth'],
 
     data(){
       return {
@@ -43,10 +47,13 @@
         showAnimation:true,
         post:{
         },
-        isRead:false
+        isRead:false,
+        id: ''
       }
     },
-
+    components:{
+        'right-footer':RightFooter
+    },
     watch:{
       isShow(){
         this.showAnimation = false;
@@ -66,26 +73,46 @@
       }
     },
     mounted() {
-      Bus.$on('switchBackground',(color)=>{
-        this.currentBackground = color
-      });
 
-      getPost(4).then((res)=>{
-
-        if(res.data.status == true){
-        this.post = Object.assign({},this.post,res.data.data);
-        }
-      }).catch((res)=>{
-
-        
-      })
+      this.eventListners();
     },
     
     methods:{
     switchRead(value){
     this.isRead = value;
     Bus.$emit('read',value);
-    }
+    },
+    eventListners(){
+      Bus.$on('change-post-id',(id)=>{
+        this.id = id;
+        this.getPost();
+      });
+      Bus.$on('switchBackground',(color)=>{
+          this.currentBackground = color
+        });
+    },
+      getPost(){
+        if (!this.id){
+          return
+        }
+        NProgress.configure({ parent: '#progress' });
+        try{
+        NProgress.start();
+        }catch(e){
+            console.log(e);
+        }
+        getPost(this.id).then((res)=>{
+
+          if(res.data.status == true){
+            this.post = Object.assign({},this.post,res.data.data);
+            NProgress.done();
+
+          }
+        }).catch((res)=>{
+
+
+        })
+      }
     }
   }
 
@@ -98,7 +125,7 @@
 
     overflow-y: auto;
     /*background: linear-gradient(200deg, #e2be7a, #e2be7a);*/
-
+    position: relative;
 }
 
     .right{

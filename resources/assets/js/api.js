@@ -3,7 +3,7 @@ import axios from 'axios';
 import Promise from 'promise';
 
 // axios 配置
-axios.defaults.timeout = 5000;
+axios.defaults.timeout = 8000;
 let base = 'http://localhost:3000/api';
 
 
@@ -50,6 +50,9 @@ axios.interceptors.request.use(
 export const getCategories = () =>{ return axios.get(`${base}/categories`)};
 export const getPost = params =>{ return axios.get(`${base}/post/${params}`)};
 export const categoryPost = params =>{ return axios.get(`${base}/category_post/${params}`)};
+export const getTags = params =>{ return axios.get(`${base}/tags`)};
+export const tagPost = params =>{ return axios.get(`${base}/tag_post/${params}`)};
+export const getTorrent = (keyword,page) =>{ return axios.get(`${base}/torrent/${keyword}/${page}`)};
 // export const requestLogin = params => { return axios.post(`${base}/login`, params).then(res => res.data); };
 //
 // export const addArticle = params => { return axios.post(`${base}/articles`, params); };

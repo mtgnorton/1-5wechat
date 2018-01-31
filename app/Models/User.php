@@ -7,8 +7,9 @@ use App\Models\User\Profile;
 use App\Models\User\Sns;
 use Encore\Admin\Traits\AdminBuilder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Model
+class User extends Authenticatable
 {
     use AdminBuilder;
 
@@ -21,7 +22,7 @@ class User extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'email', 'password'];
+    protected $fillable = ['name', 'email', 'password','confirmation_token','avatar','is_active'];
 
     /**
      * The attributes excluded from the model's JSON form.
