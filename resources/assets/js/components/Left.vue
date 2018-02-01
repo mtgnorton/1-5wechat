@@ -14,6 +14,7 @@
                 <li @click="openCenter('categories')">分类</li>
                 <li @click="openCenter('tags')">标签</li>
                 <li>个人简介</li>
+        
                 <li @click="openTorrent">torrent</li>
                 <li class="choose-background">
                         <el-dropdown @command="chooseBackground">

@@ -16,12 +16,15 @@
   <el-button size="small"  plain>发表评论</el-button>
       </el-col>
 
-      <el-col :md="2" :offset="1" class="access-comment">  
+      <el-col :md="2" :offset="1" class="access-comment">
        <el-badge :value="12" class="item">
-  <el-button size="small">查看评论</el-button>
+  <el-button size="small" @click="accessComments">查看评论</el-button>
     </el-badge>
     </el-col>
 
+      <el-col :md="2" :offset="1"  class="pub-comment">
+  <el-button size="small" @click="registerOrLogin" plain>注册/登陆</el-button>
+      </el-col>
     </el-row>
  
     </el-main>
@@ -30,6 +33,8 @@
 </template>
 
 <script>
+    import Bus from '../bus.js';
+
     export default {
       props:['rightWidth'],
       data(){
@@ -38,6 +43,17 @@
         }
       },
       mounted() {
+
+      },
+      components:{
+      },
+      methods:{
+        accessComments(){
+          Bus.$emit(Bus.event.commentsShow);
+        },
+        registerOrLogin(){
+          Bus.$emit(Bus.event.userShow);
+        }
 
       }
     }
@@ -52,10 +68,15 @@ background: #b3c0d1;
 position: fixed;
 bottom: 0;
 right: 0;
+    z-index:100;
 }
 
 .pub-comment{
 margin-top: 10px
+}
+.item{
+    padding : 0;
+    margin-top:10px;
 }
 
 </style>

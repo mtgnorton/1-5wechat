@@ -9,6 +9,7 @@
     <div class="right-wrapper"  :style="{height:cHeight+'px'}" v-show="showAnimation">
         <div class="right" ref="sHeight">
             <div class="right-header">
+
                <h2> Hello World</h2>
                 <div class="switch-read">
                     <el-switch
@@ -28,6 +29,9 @@
                 <div class="read w-e-text" :style="readCompute"  v-html="post.content"></div>
             </div>
             <right-footer :right-width="rightWidth"></right-footer>
+            <Comments :right-width="rightWidth"></Comments>
+            <User :right-width="rightWidth"></User>
+
         </div>
     </div>
     </transition>
@@ -37,7 +41,10 @@
     import Bus from '../bus.js'
     import {getPost} from '../api.js'
     import NProgress from 'nprogress'//页面顶部进度条
-    import RightFooter from './footer.vue'
+    import RightFooter from './footer'
+    import Comments from './comments';
+    import User from './user';
+
     export default {
     props:['cHeight','isShow','rightWidth'],
 
@@ -52,7 +59,10 @@
       }
     },
     components:{
-        'right-footer':RightFooter
+        'right-footer':RightFooter,
+          Comments,
+          User
+
     },
     watch:{
       isShow(){
@@ -120,13 +130,13 @@
 
 <style>
 
-.right-wrapper{
+    .right-wrapper{
 
 
-    overflow-y: auto;
-    /*background: linear-gradient(200deg, #e2be7a, #e2be7a);*/
-    position: relative;
-}
+        overflow-y: auto;
+        /*background: linear-gradient(200deg, #e2be7a, #e2be7a);*/
+        position: relative;
+    }
 
     .right{
         overflow: auto;

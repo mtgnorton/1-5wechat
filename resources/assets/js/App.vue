@@ -105,7 +105,9 @@
 
         }
         this.centerFlag = flag;
-
+    this.$nextTick(function(){
+        this.rightWidth = document.getElementsByClassName('right-wrapper')[0].clientWidth;
+        })
       })
 
         Bus.$on('read',(value)=>{

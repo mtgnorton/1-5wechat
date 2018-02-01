@@ -6,6 +6,8 @@ let data = {
   event:{
     changePostdirectory:'change-post-directory',
     openTorrent:'open-torrent',
+    commentsShow:'comments-show',
+    userShow:'user-show'
   }
 };
 export default new Vue({
