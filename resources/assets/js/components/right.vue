@@ -28,6 +28,8 @@
                 <div class="read w-e-text" :style="readCompute"  v-html="post.content"></div>
             </div>
             <right-footer :right-width="rightWidth"></right-footer>
+            <Comments :right-width="rightWidth"></Comments>
+
         </div>
     </div>
     </transition>
@@ -38,6 +40,8 @@
     import {getPost} from '../api.js'
     import NProgress from 'nprogress'//页面顶部进度条
     import RightFooter from './footer.vue'
+    import Comments from './comments';
+
     export default {
     props:['cHeight','isShow','rightWidth'],
 
@@ -52,7 +56,9 @@
       }
     },
     components:{
-        'right-footer':RightFooter
+        'right-footer':RightFooter,
+          Comments
+
     },
     watch:{
       isShow(){
@@ -120,13 +126,13 @@
 
 <style>
 
-.right-wrapper{
+    .right-wrapper{
 
 
-    overflow-y: auto;
-    /*background: linear-gradient(200deg, #e2be7a, #e2be7a);*/
-    position: relative;
-}
+        overflow-y: auto;
+        /*background: linear-gradient(200deg, #e2be7a, #e2be7a);*/
+        position: relative;
+    }
 
     .right{
         overflow: auto;
