@@ -1,5 +1,5 @@
 import Vue from 'vue'
-let data = {
+const data = {
   centerStatus: true,
   isPc : true,
   centerFlag: 'category',
@@ -10,6 +10,22 @@ let data = {
     userShow:'user-show'
   }
 };
+const funs = {
+  getErrorMsg:function (errors) {
+    let msgs = '';
+     errors  = errors['response']['data']['errors'];
+    for(let msg in errors){
+
+      errors[msg].forEach(value=>{
+        msgs += value+'  ';
+      })
+    }
+    return msgs;
+  }
+}
+export{
+  funs
+}
 export default new Vue({
   data(){
    return data;

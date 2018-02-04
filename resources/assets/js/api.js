@@ -53,8 +53,4 @@ export const categoryPost = params =>{ return axios.get(`${base}/category_post/$
 export const getTags = params =>{ return axios.get(`${base}/tags`)};
 export const tagPost = params =>{ return axios.get(`${base}/tag_post/${params}`)};
 export const getTorrent = (keyword,page) =>{ return axios.get(`${base}/torrent/${keyword}/${page}`)};
-// export const requestLogin = params => { return axios.post(`${base}/login`, params).then(res => res.data); };
-//
-// export const addArticle = params => { return axios.post(`${base}/articles`, params); };
-//
-// export const updateTag = params =>{ return axios.patch(`${base}/tags/${params.id}`,params)};
+export const register = (params) =>{ return axios.post(`${base}/register`,params)};

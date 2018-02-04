@@ -19,8 +19,10 @@ Vue.use(VueRouter);
 require('./bootstrap');
 Vue.use(ElementUI);
 
+import bus,{funs} from './bus.js';
 
-const bus = new Vue();
+Vue.prototype.$bus =bus;
+Vue.prototype.$funs = funs;
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
